@@ -1,56 +1,103 @@
 import { useState } from "react";
+import Logo from "./assets/CASA-01.png";
+import Footer from "./components/Footer.jsx";
+import "./App.css";
+import "./index.css";
 
-function LoginForm() {
-  const [email, setEmail] = useState("");
+function App() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      });
 
-    if (!email || !password) {
-      setError("Please fill in all fields");
-      return;
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message);
+        return;
+      }
+
+      alert("Login successful");
+      console.log(data);
+
+    } catch (err) {
+      console.error(err);
+      alert("Cannot connect to server");
     }
-
-    setError("");
-
-    // Example: send data to API
-    console.log("Logging in with:", { email, password });
-
-    // fetch("/api/login", { method: "POST", body: JSON.stringify({ email, password }) })
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 300 }}>
-      <h2>Login</h2>
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
+    <center>
       <div>
-        <label>Email</label>
+        <img src={Logo} alt="logo" className="logo" />
+        <br /><br /><br /><br />
+
+        <label className="content" style={{ display: "inline-block" }}>
+          Username:
+        </label>
         <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          style={{
+            marginRight: "50px",
+            borderRadius: "5px",
+            width: "300px",
+            padding: "8px",
+            marginTop: "-15px",
+            verticalAlign: "middle",
+          }}
         />
-      </div>
 
-      <div>
-        <label>Password</label>
+        <br /><br />
+
+        <label className="content" style={{ display: "inline-block" }}>
+          Password :
+        </label>
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          required
+          style={{
+            marginRight: "50px",
+            borderRadius: "5px",
+            width: "300px",
+            padding: "8px",
+            marginTop: "-15px",
+            verticalAlign: "middle",
+          }}
         />
-      </div>
 
-      <button type="submit">Login</button>
-    </form>
+        <br />
+
+        <label className="remember">
+          <input
+            type="checkbox"
+            style={{ display: "inline-block", width: "25px" }}
+          />
+          Remember Me
+        </label>
+
+        <br />
+
+        <button className="button" onClick={handleLogin}>
+          Login
+        </button>
+
+        <Footer />
+      </div>
+    </center>
   );
 }
 
-export default LoginForm;
-
+export default App;

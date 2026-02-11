@@ -1,7 +1,11 @@
 export default function Footer() {
   return (
-    <footer className="footer">
-      @ 2026 my Website
+    <div>
+      <br/><br/>
+      <footer className="footer">
+      PSV<span className="trademark-symbol">®</span> Property Rights
       </footer>
+      </div>
+    
   );
 }

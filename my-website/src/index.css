@@ -81,8 +81,8 @@ body {
 }
 
 .full-width-container {
-  width: 100vw; 
-  min-height: 100%; 
+  width: auto; 
+  min-height: auto; 
   background-color: #f0f0f0;
   justify-content: center;
   align-items: center;
